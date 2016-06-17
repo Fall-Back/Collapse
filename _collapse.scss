@@ -1,0 +1,273 @@
+@charset "UTF-8";
+/*------------------------------------------------------------------------------------------------*\
+    Fall-Back Collapse Pattern v1.0.0
+
+    Designed for use with the basic [CSS Mustard Cut](https://github.com/Fall-Back/CSS-Mustard-Cut)
+    IE 9+, FF 8+, Opera 12, [Chrome 29+, Android ~4.4+]
+    Chrome 29+, Opera 16+, Safari 6.1+, iOS 7+, Android ~4.4+
+
+\*------------------------------------------------------------------------------------------------*/
+
+// Colours:
+
+// Slightly hacky way of allowing the main UI colour of this pattern to be:
+// - base-ui colour (if set)
+// - otherwise #999
+// - but can be specifically overridden
+$t: #999;
+@if variable-exists(fallback--base-ui-color) {
+    $t: $fallback--base-ui-color;
+}
+$fallback--collapse--ui-color:                   $t !default;
+
+
+$fallback--collapse--bg-color:                   $fallback--collapse--ui-color !default;
+$fallback--collapse--color:                      #fff !default;
+
+$fallback--collapse__link--color:                #fff !default;
+$fallback--collapse__link--color--alt:           $fallback--collapse__link--color !default;
+$fallback--collapse__link--bg-color:             $fallback--collapse--ui-color !default;
+$fallback--collapse__link--bg-color--alt:        darken($fallback--collapse--ui-color, 10%) !default;
+
+$fallback--collapse__overlay--bg-color:          #fff !default;
+
+
+
+// Sizes:
+
+$fallback--collapse__link--height:               ($fallback--base-em-ratio * 1.5em) !default;
+$fallback--collapse--spacing:                    ($fallback--collapse__link--height / 8) !default;
+
+//$fallback--collapse__link--height:               40px !default;
+//$fallback--collapse--spacing:                    5px !default;
+
+$fallback--collapse--padding:                     0;
+
+// Breakpoints:
+
+$fallback--collapse--breakpoint--enhanced:       50em !default;
+//$fallback--collapse--breakpoint--enhanced:       720px !default;
+
+
+// Transitons:
+//$fallback--collapse--transition-duration:        ease;
+//$fallback--collapse--transition-timing-function: 0.8s;
+
+//$fallback--collapse__overlay-transition:         opacity 0.5s ease !default;
+
+
+// Other:
+//$fallback--collapse__overlay-opacity:            0.5 !default;
+//$fallback--collapse__overlay-shadow:             0 0 10px 5px #000 !default;
+
+// SVG's
+
+//$fallback--collapse__open--svg:                 "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzQ0NCIgZD0iTTE5LjE0MyA4SC44NTdDLjA2NyA4IDAgOC44OTQgMCAxMGMwIDEuMTA0LjA2OCAyIC44NTcgMmgxOC4yODZjLjc5IDAgLjg1Ny0uODk2Ljg1Ny0yIDAtMS4xMDctLjA2OC0yLS44NTctMnptMCA4SC44NTdDLjA2NyAxNiAwIDE2Ljg5NCAwIDE4YzAgMS4xMDUuMDY4IDIgLjg1NyAyaDE4LjI4NmMuNzkgMCAuODU3LS44OTUuODU3LTIgMC0xLjEwNi0uMDY4LTItLjg1Ny0yek0uODU3IDRoMTguMjg2Yy43OSAwIC44NTctLjg5NS44NTctMiAwLTEuMTA2LS4wNjgtMi0uODU3LTJILjg1N0MuMDY3IDAgMCAuODk0IDAgMmMwIDEuMTA1LjA2OCAyIC44NTcgMnoiLz48L3N2Zz4=" !default;
+//$fallback--collapse__cancel--svg:               "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzQ0NCIgZD0iTTIwIDIuMDJMMTcuOTggMCAxMCA3Ljk4IDIuMDIgMCAwIDIuMDIgNy45OCAxMCAwIDE3Ljk4IDIuMDIgMjAgMTAgMTIuMDIgMTcuOTggMjAgMjAgMTcuOTggMTIuMDIgMTAgMjAgMi4wMnoiLz48L3N2Zz4=" !default;
+
+
+
+.collapse__controls,
+.collapse-target {
+    display: none;
+}
+
+/* -- Enhanced layout --------------------------------------------------------------------------- */
+@media only screen and (max-width: (minus1px($fallback--collapse--breakpoint--enhanced))) {
+
+    .collapse-panel {
+        display: none;
+        
+        background-color: $fallback--collapse--bg-color;
+        color: $fallback--collapse--color;
+    }
+
+    .collapse-target:target ~ * .collapse-panel {
+        display: block;
+    }
+    
+    /* Style the collapse controls: */
+
+    /*
+        NOTE: this still isn't finalised and may need to be more flexible as it's quite
+        subjective how these buttons should be presented in terms of position.
+        Will probably not be in isolation, but as part of a navbar or similar so this does
+        need some more thinking.
+    */
+
+    .collapse__controls {
+        display: inline-block;
+        position: relative; /* IS needed for when used outside of top-bar. */
+    }
+    
+    
+    
+    
+    /* Toggle control: */
+    .collapse__open {
+        display: block;
+    }
+    .collapse__close {
+        display: none;
+    }
+    
+    .collapse-target:target ~ * .collapse__open {
+        display: none;
+    }
+    .collapse-target:target ~ * .collapse__close {
+        display: block;
+    }
+
+
+    /*
+        This extra wrapper allows the content of the panel to be absolutely positioned so that the
+        container doesn't create a psotioning context which would prevent the overlay from filling
+        the body.
+        The :target id needs to stay in actual position so the fall-back works, so everything
+        affected by the :target must come after or inside the element with the id, but we want to
+        allow the position of the controls to be as flexible as possible, so some trickery is
+        needed.
+
+        1. Make sure the collapse is on top. (should be a variable).
+        2. Make the collapse invisible in a way that's transition-able.
+    */
+    /*.collapse__wrap {
+        background-color: $fallback--collapse--bg-color;
+        color: $fallback--collapse--color;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        overflow: auto;
+        
+        padding: $fallback--collapse--padding;
+
+        z-index: 9999; /* [1] *
+
+        clip: rect(0, 0, 0, 0); /* [2] *
+    }*/
+
+
+    /*
+        1. Extremely large clip. Can't use 'auto' or transition delay won't run.
+           Can't use clip-path because of support (as in - this is for older browsers anyway)
+    */
+    /*.collapse:target .collapse__wrap {
+        clip: rect(0, 999999px, 999999px, 0); /* [1] *
+    }*/
+
+
+    /* Slide effect: */
+
+    /*.collapse--slide .collapse__wrap {
+        -webkit-transform: translateY(-100%);
+        -moz-transform:    translateY(-100%);
+        -ms-transform:     translateY(-100%);
+        -o-transform:      translateY(-100%);
+        transform:         translateY(-100%);
+
+        -webkit-transition: -webkit-transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+        -moz-transition:    -moz-transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+        -o-transition:      -o-transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+        transition:         transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+    }*/
+
+    /*.collapse--slide:target .collapse__wrap {
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+
+        -webkit-transition: -webkit-transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+        -moz-transition:    -moz-transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+        -o-transition:      -o-transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+        transition:         transform $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+    }*/
+
+
+    /* Fade effect: */
+
+    /*.collapse--fade .collapse__wrap {
+        opacity: 0;
+
+        -webkit-transition: opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+        -moz-transition:    opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+        -o-transition:      opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+        transition:         opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function,
+                            clip 0s $fallback--collapse--transition-timing-function $fallback--collapse--transition-duration;
+
+    }
+
+    .collapse--fade:target .collapse__wrap {
+        opacity: 1;
+
+        -webkit-transition: opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+        -moz-transition:    opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+        -o-transition:      opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+        transition:         opacity $fallback--collapse--transition-duration $fallback--collapse--transition-timing-function;
+
+    }*/
+
+
+    .collapse-panel a {
+        background-color: $fallback--collapse__link--bg-color;
+        color: $fallback--collapse__link--color;
+    }
+
+    .collapse-panel a:hover,
+    .collapse-panel a:active,
+    .collapse-panel a:focus {
+        background-color: $fallback--collapse__link--bg-color--alt;
+        color: $fallback--collapse__link--color--alt;
+    }
+
+
+    /* Style the collapse controls: */
+    /*
+      NOTE: this still isn't finalised and may need to be more flexible as it's quite
+      subjective how these buttons should be presented in terms of position.
+      Will probably not be in isolation, but as part of a navbar or similar so this does
+      need some more thinking.
+    */
+
+    // Double classes to up the specificity, as the 'open' link does not have to appear inside the
+    // `.collapse` container. This is a shame and weird so re-think this
+    .collapse__open.collapse__open,
+    .collapse__close.collapse__close {
+        color: $fallback--collapse__link--color;
+        background-color: $fallback--collapse__link--bg-color;
+        width: $fallback--collapse__link--height;
+
+        //display: block;
+        margin: 0;
+        padding: 0 ($fallback--collapse--spacing * 2);
+        height: $fallback--collapse__link--height;
+        line-height: $fallback--collapse__link--height;
+
+        border: 0;
+
+        text-align: center;
+    }
+
+
+    .collapse__open.collapse__open:hover,
+    .collapse__open.collapse__open:active,
+    .collapse__open.collapse__open:focus,
+    .collapse__close.collapse__close:hover,
+    .collapse__close.collapse__close:active,
+    .collapse__close.collapse__close:focus {
+        border: 0;
+        color: $fallback--collapse__link--color--alt;
+        background-color: $fallback--collapse__link--bg-color--alt;
+    }
+}
+
+/* ---------------------------------------------------------------------------------------------- */
