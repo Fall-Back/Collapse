@@ -5,29 +5,47 @@
     Designed for use with the basic [CSS Mustard Cut](https://github.com/Fall-Back/CSS-Mustard-Cut)
     IE 9+, FF 8+, Opera 12, [Chrome 29+, Android ~4.4+]
     Chrome 29+, Opera 16+, Safari 6.1+, iOS 7+, Android ~4.4+
+    
+    Any double-classing (e.g. `.class.class`) is deliberatly in place in order to increase specifity.
+    This allows Start-CSS declarations to be overidden.
+    E.g. `.{patten}__open.{patten}__open` overrides `a[href]`.
 
+    
 \*------------------------------------------------------------------------------------------------*/
 
-// Colours:
+/*------------------------------------------------------------------------------------------------*\
+    Import Fall-Back vars:
 
-// Slightly hacky way of allowing the main UI colour of this pattern to be:
-// - base-ui colour (if set)
-// - otherwise #999
-// - but can be specifically overridden
+    Slightly hacky way of allowing the main UI colour of this pattern to be:
+     - base-ui colour (if set)
+     - otherwise #999
+     - but can be specifically overridden
+\*------------------------------------------------------------------------------------------------*/
 $t: #999;
 @if variable-exists(fallback--base-ui-color) {
     $t: $fallback--base-ui-color;
 }
 $fallback--collapse--ui-color:                   $t !default;
+/*------------------------------------------------------------------------------------------------*/
 
+
+// Colours:
 
 $fallback--collapse--bg-color:                   $fallback--collapse--ui-color !default;
 $fallback--collapse--color:                      #fff !default;
 
-$fallback--collapse__link--color:                #fff !default;
-$fallback--collapse__link--color--alt:           $fallback--collapse__link--color !default;
-$fallback--collapse__link--bg-color:             $fallback--collapse--ui-color !default;
-$fallback--collapse__link--bg-color--alt:        darken($fallback--collapse--ui-color, 10%) !default;
+
+$fallback--collapse__link--color:                lighten($fallback--collapse--ui-color, 55%) !default;
+$fallback--collapse__link--color--alt:           lighten($fallback--collapse--ui-color, 35%) !default;
+$fallback--collapse__link--bg-color:             transparent !default;
+$fallback--collapse__link--bg-color--alt:        $fallback--collapse--ui-color !default;
+
+
+$fallback--collapse__control--color:             #fff !default;
+$fallback--collapse__control--color--alt:        $fallback--collapse__control--color !default;
+$fallback--collapse__control--bg-color:          $fallback--collapse--ui-color !default;
+$fallback--collapse__control--bg-color--alt:     darken($fallback--collapse--ui-color, 10%) !default;
+
 
 $fallback--collapse__overlay--bg-color:          #fff !default;
 
@@ -35,8 +53,8 @@ $fallback--collapse__overlay--bg-color:          #fff !default;
 
 // Sizes:
 
-$fallback--collapse__link--height:               ($fallback--base-em-ratio * 1.5em) !default;
-$fallback--collapse--spacing:                    ($fallback--collapse__link--height / 8) !default;
+$fallback--collapse__control--height:            ($fallback--base-em-ratio * 1.5em) !default;
+$fallback--collapse--spacing:                    ($fallback--collapse__control--height / 8) !default;
 
 //$fallback--collapse__link--height:               40px !default;
 //$fallback--collapse--spacing:                    5px !default;
@@ -76,14 +94,20 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
 @media only screen and (max-width: (minus1px($fallback--collapse--breakpoint--enhanced))) {
 
     .collapse-panel {
-        display: none;
+        -display: none;
+        
+        height: 0;
+        overflow: hidden;
         
         background-color: $fallback--collapse--bg-color;
         color: $fallback--collapse--color;
     }
 
     .collapse-target:target ~ * .collapse-panel {
-        display: block;
+        -display: block;
+        
+        height: auto;
+        overflow: visible;
     }
     
     /* Style the collapse controls: */
@@ -219,6 +243,7 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
 
     .collapse-panel a {
         background-color: $fallback--collapse__link--bg-color;
+        background-color: transparent;
         color: $fallback--collapse__link--color;
     }
 
@@ -242,17 +267,17 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
     // `.collapse` container. This is a shame and weird so re-think this
     .collapse__open.collapse__open,
     .collapse__close.collapse__close {
-        color: $fallback--collapse__link--color;
-        background-color: $fallback--collapse__link--bg-color;
-        width: $fallback--collapse__link--height;
+        color: $fallback--collapse__control--color;
+        background-color: $fallback--collapse__control--bg-color;
+        width: $fallback--collapse__control--height;
 
-        //display: block;
         margin: 0;
         padding: 0 ($fallback--collapse--spacing * 2);
-        height: $fallback--collapse__link--height;
-        line-height: $fallback--collapse__link--height;
+        height: $fallback--collapse__control--height;
+        line-height: $fallback--collapse__control--height;
 
         border: 0;
+        text-decoration: none;
 
         text-align: center;
     }
@@ -265,8 +290,9 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
     .collapse__close.collapse__close:active,
     .collapse__close.collapse__close:focus {
         border: 0;
-        color: $fallback--collapse__link--color--alt;
-        background-color: $fallback--collapse__link--bg-color--alt;
+        text-decoration: none;
+        color: $fallback--collapse__control--color--alt;
+        background-color: $fallback--collapse__control--bg-color--alt;
     }
 }
 
