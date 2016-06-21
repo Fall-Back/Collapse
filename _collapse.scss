@@ -9,7 +9,6 @@
     Any double-classing (e.g. `.class.class`) is deliberatly in place in order to increase specifity.
     This allows Start-CSS declarations to be overidden.
     E.g. `.{patten}__open.{patten}__open` overrides `a[href]`.
-
     
 \*------------------------------------------------------------------------------------------------*/
 
