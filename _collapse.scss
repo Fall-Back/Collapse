@@ -5,11 +5,11 @@
     Designed for use with the basic [CSS Mustard Cut](https://github.com/Fall-Back/CSS-Mustard-Cut)
     IE 9+, FF 8+, Opera 12, [Chrome 29+, Android ~4.4+]
     Chrome 29+, Opera 16+, Safari 6.1+, iOS 7+, Android ~4.4+
-    
+
     Any double-classing (e.g. `.class.class`) is deliberatly in place in order to increase specifity.
     This allows Start-CSS declarations to be overidden.
     E.g. `.{pattern}__open.{pattern}__open` overrides `a[href]`.
-    
+
 \*------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------------------------*\
@@ -94,21 +94,21 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
 
     .collapse-panel {
         -display: none;
-        
+
         height: 0;
         overflow: hidden;
-        
+
         background-color: $fallback--collapse--bg-color;
         color: $fallback--collapse--color;
     }
 
     .collapse-target:target ~ * .collapse-panel {
         -display: block;
-        
+
         height: auto;
         overflow: visible;
     }
-    
+
     /* Style the collapse controls: */
 
     /*
@@ -122,10 +122,10 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
         display: inline-block;
         position: relative; /* IS needed for when used outside of top-bar. */
     }
-    
-    
-    
-    
+
+
+
+
     /* Toggle control: */
     .collapse__open {
         display: block;
@@ -133,7 +133,7 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
     .collapse__close {
         display: none;
     }
-    
+
     .collapse-target:target ~ * .collapse__open {
         display: none;
     }
@@ -162,7 +162,7 @@ $fallback--collapse--breakpoint--enhanced:       50em !default;
         top: 0;
         width: 100%;
         overflow: auto;
-        
+
         padding: $fallback--collapse--padding;
 
         z-index: 9999; /* [1] *
