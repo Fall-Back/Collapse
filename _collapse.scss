@@ -24,48 +24,48 @@ $t: #999;
 @if variable-exists(fallback--base-ui-color) {
     $t: $fallback--base-ui-color;
 }
-$fallback--collapse--ui-color:                   $t !default;
+$fallback--collapse--ui-color:                     $t !default;
 
 // Same thing for the breakpoint:
 $t: 50em;
 @if variable-exists(fallback--breakpoint--enhanced) {
     $t: $fallback--breakpoint--enhanced;
 }
-$fallback--collapse--breakpoint--enhanced: $t !default;
+$fallback--collapse--breakpoint--enhanced:         $t !default;
 /*------------------------------------------------------------------------------------------------*/
 
 
 // Colours:
 
-$fallback--collapse--bg-color:                   $fallback--collapse--ui-color !default;
-$fallback--collapse--color:                      #fff !default;
+$fallback--collapse--bg-color:                     $fallback--collapse--ui-color !default;
+$fallback--collapse--color:                        #fff !default;
 
 
-$fallback--collapse__link--color:                lighten($fallback--collapse--ui-color, 55%) !default;
-$fallback--collapse__link--color--alt:           lighten($fallback--collapse--ui-color, 35%) !default;
-$fallback--collapse__link--bg-color:             transparent !default;
-$fallback--collapse__link--bg-color--alt:        $fallback--collapse--ui-color !default;
+$fallback--collapse__link--color:                  lighten($fallback--collapse--ui-color, 55%) !default;
+$fallback--collapse__link--color--alt:             lighten($fallback--collapse--ui-color, 35%) !default;
+$fallback--collapse__link--bg-color:               transparent !default;
+$fallback--collapse__link--bg-color--alt:          $fallback--collapse--ui-color !default;
 
 
-$fallback--collapse__control--color:             #fff !default;
-$fallback--collapse__control--color--alt:        $fallback--collapse__control--color !default;
-$fallback--collapse__control--bg-color:          $fallback--collapse--ui-color !default;
-$fallback--collapse__control--bg-color--alt:     darken($fallback--collapse--ui-color, 10%) !default;
+$fallback--collapse__control--color:               #fff !default;
+$fallback--collapse__control--color--alt:          $fallback--collapse__control--color !default;
+$fallback--collapse__control--bg-color:            $fallback--collapse--ui-color !default;
+$fallback--collapse__control--bg-color--alt:       darken($fallback--collapse--ui-color, 10%) !default;
 
 
-$fallback--collapse__overlay--bg-color:          #fff !default;
+$fallback--collapse__overlay--bg-color:            #fff !default;
 
 
 
 // Sizes:
 
-$fallback--collapse__control--height:            ($fallback--base-em-ratio * 1.5em) !default;
-$fallback--collapse--spacing:                    ($fallback--collapse__control--height / 8) !default;
+$fallback--collapse__control--height:              ($fallback--base-em-ratio * 1.5em) !default;
+$fallback--collapse--spacing:                      ($fallback--collapse__control--height / 8) !default;
 
 //$fallback--collapse__link--height:               40px !default;
 //$fallback--collapse--spacing:                    5px !default;
 
-$fallback--collapse--padding:                     0;
+$fallback--collapse--padding:                      0;
 
 
 // Transitons:
@@ -81,8 +81,8 @@ $fallback--collapse--padding:                     0;
 
 // SVG's
 
-//$fallback--collapse__open--svg:                 "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzQ0NCIgZD0iTTE5LjE0MyA4SC44NTdDLjA2NyA4IDAgOC44OTQgMCAxMGMwIDEuMTA0LjA2OCAyIC44NTcgMmgxOC4yODZjLjc5IDAgLjg1Ny0uODk2Ljg1Ny0yIDAtMS4xMDctLjA2OC0yLS44NTctMnptMCA4SC44NTdDLjA2NyAxNiAwIDE2Ljg5NCAwIDE4YzAgMS4xMDUuMDY4IDIgLjg1NyAyaDE4LjI4NmMuNzkgMCAuODU3LS44OTUuODU3LTIgMC0xLjEwNi0uMDY4LTItLjg1Ny0yek0uODU3IDRoMTguMjg2Yy43OSAwIC44NTctLjg5NS44NTctMiAwLTEuMTA2LS4wNjgtMi0uODU3LTJILjg1N0MuMDY3IDAgMCAuODk0IDAgMmMwIDEuMTA1LjA2OCAyIC44NTcgMnoiLz48L3N2Zz4=" !default;
-//$fallback--collapse__cancel--svg:               "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzQ0NCIgZD0iTTIwIDIuMDJMMTcuOTggMCAxMCA3Ljk4IDIuMDIgMCAwIDIuMDIgNy45OCAxMCAwIDE3Ljk4IDIuMDIgMjAgMTAgMTIuMDIgMTcuOTggMjAgMjAgMTcuOTggMTIuMDIgMTAgMjAgMi4wMnoiLz48L3N2Zz4=" !default;
+//$fallback--collapse__open--svg:                  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzQ0NCIgZD0iTTE5LjE0MyA4SC44NTdDLjA2NyA4IDAgOC44OTQgMCAxMGMwIDEuMTA0LjA2OCAyIC44NTcgMmgxOC4yODZjLjc5IDAgLjg1Ny0uODk2Ljg1Ny0yIDAtMS4xMDctLjA2OC0yLS44NTctMnptMCA4SC44NTdDLjA2NyAxNiAwIDE2Ljg5NCAwIDE4YzAgMS4xMDUuMDY4IDIgLjg1NyAyaDE4LjI4NmMuNzkgMCAuODU3LS44OTUuODU3LTIgMC0xLjEwNi0uMDY4LTItLjg1Ny0yek0uODU3IDRoMTguMjg2Yy43OSAwIC44NTctLjg5NS44NTctMiAwLTEuMTA2LS4wNjgtMi0uODU3LTJILjg1N0MuMDY3IDAgMCAuODk0IDAgMmMwIDEuMTA1LjA2OCAyIC44NTcgMnoiLz48L3N2Zz4=" !default;
+//$fallback--collapse__cancel--svg:                "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzQ0NCIgZD0iTTIwIDIuMDJMMTcuOTggMCAxMCA3Ljk4IDIuMDIgMCAwIDIuMDIgNy45OCAxMCAwIDE3Ljk4IDIuMDIgMjAgMTAgMTIuMDIgMTcuOTggMjAgMjAgMTcuOTggMTIuMDIgMTAgMjAgMi4wMnoiLz48L3N2Zz4=" !default;
 
 
 
